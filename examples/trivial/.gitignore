@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/trivial
+trivial.so
+trivial.dylib
+trivial.dll
+trivial.a
+trivial.lib
+trivial-test-*
+*.exe
+*.o
+*.obj
+*.lst

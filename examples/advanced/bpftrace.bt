@@ -1,0 +1,70 @@
+
+usdt:./advanced:advanced:case1
+{
+	@last["case1"] = nsecs;
+}
+
+usdt:./advanced:advanced:case1_return
+{
+	$tmp = nsecs;
+	$period = ($tmp - @last["case1"]) / 1000000;
+	printf("Probe %s time %d ms\n", "case1", $period);
+	@last["case1"] = $tmp;
+	@timing = hist($period);
+}
+
+usdt:./advanced:advanced:case2
+{
+	@last["case2"] = nsecs;
+}
+
+usdt:./advanced:advanced:case2_return
+{
+	$tmp = nsecs;
+	$period = ($tmp - @last["case2"]) / 1000000;
+	printf("Probe %s time %ld ms\n", "case2", $period);
+	@last["case2"] = nsecs;
+	@timing = hist($period);
+}
+
+usdt:./advanced:advanced:case3
+{
+	@last["case3"] = nsecs;
+}
+
+usdt:./advanced:advanced:case3_return
+{
+	$tmp = nsecs;
+	$period = ($tmp - @last["case3"]) / 1000000;
+	printf("Probe %s time %ld ms\n", "case3", $period);
+	@last["case2"] = nsecs;
+	@timing = hist($period);
+}
+
+usdt:./advanced:advanced:case4
+{
+	@last["case4"] = nsecs;
+}
+
+usdt:./advanced:advanced:case4_return
+{
+	$tmp = nsecs;
+	$period = ($tmp - @last["case4"]) / 1000000;
+	printf("Probe %s time %ld ms\n", "case4", $period);
+	@last["case4"] = nsecs;
+	@timing = hist($period);
+}
+
+usdt:./advanced:advanced:case0
+{
+	@last["case0"] = nsecs;
+}
+
+usdt:./advanced:advanced:case0_return
+{
+	$tmp = nsecs;
+	$period = ($tmp - @last["case0"]) / 1000000;
+	printf("Probe %s time %ld ms\n", "case0", $period);
+	@last["case0"] = nsecs;
+	@timing = hist($period);
+}

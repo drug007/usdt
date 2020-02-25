@@ -1,0 +1,115 @@
+#  Usage:
+#    sudo stap -x `pidof advanced` test.stp advanced
+
+global calls, times, region
+
+probe process(@1).provider("advanced").mark("case0") {
+	pp = "case0"
+	calls[pp] <<< 1
+	times[pp] = gettimeofday_us()
+	printf("'%s' '%s' %d\n", pp, probefunc(), $arg1)
+}
+
+probe process(@1).provider("advanced").mark("case1") {
+	pp = "case1"
+	calls[pp] <<< 1
+	times[pp] = gettimeofday_us()
+	printf("'%s' '%s' %d\n", pp, probefunc(), $arg1)
+}
+
+probe process(@1).provider("advanced").mark("case2") {
+	pp = "case2"
+	calls[pp] <<< 1
+	times[pp] = gettimeofday_us()
+	printf("'%s' '%s' %d\n", pp, probefunc(), $arg1)
+}
+
+probe process(@1).provider("advanced").mark("case3") {
+	pp = "case3"
+	calls[pp] <<< 1
+	times[pp] = gettimeofday_us()
+	printf("'%s' '%s' %d\n", pp, probefunc(), $arg1)
+}
+
+probe process(@1).provider("advanced").mark("case4") {
+	pp = "case4"
+	calls[pp] <<< 1
+	times[pp] = gettimeofday_us()
+	printf("'%s' '%s' %d\n", pp, probefunc(), $arg1)
+}
+
+probe process(@1).provider("advanced").mark("case0_return") {
+	pp = "case0"
+	t = gettimeofday_us()
+	s = times[pp]
+	if (s) {
+		e = t - s
+		region[pp] <<< e
+	}
+}
+
+probe process(@1).provider("advanced").mark("case1_return") {
+	pp = "case1"
+	t = gettimeofday_us()
+	s = times[pp]
+	if (s) {
+		e = t - s
+		region[pp] <<< e
+	}
+	times[pp] = t
+}
+
+probe process(@1).provider("advanced").mark("case2_return") {
+	pp = "case2"
+	t = gettimeofday_us()
+	s = times[pp]
+	if (s) {
+		e = t - s
+		region[pp] <<< e
+	}
+	times[pp] = t
+}
+
+probe process(@1).provider("advanced").mark("case3_return") {
+	pp = "case3"
+	t = gettimeofday_us()
+	s = times[pp]
+	if (s) {
+		e = t - s
+		region[pp] <<< e
+	}
+	times[pp] = t
+}
+
+probe process(@1).provider("advanced").mark("case4_return") {
+	pp = "case4"
+	t = gettimeofday_us()
+	s = times[pp]
+	if (s) {
+		e = t - s
+		region[pp] <<< e
+	}
+	times[pp] = t
+}
+
+probe begin {
+	printf("Started at %s\n", ctime())
+	printf("Pid: %d\n", pid())
+}
+
+probe end {
+	printf("\n%-58s %10s %10s\n", "region", "avg(us)", "max(us)");
+	foreach(p+ in region) {
+		printf("\n%s call count: %d\n", p, @count(calls[p]));
+		printf("%-58s %10d %10d\n", p, @avg(region[p])/1, @max(region[p])/1);
+	}
+
+	#printf("\n\ncontrol flow graph information\n")
+	#printf("from\n\tto\n=======================\n")
+	#foreach ([src+] in region) {
+	#	printf("%-s\n", src)
+	#	foreach ([s,dest+] in cfg[src,*]) { # slice for all dest's
+	#		printf("\t%-s %d\n", dest, @count(cfg[src,dest]));
+	#	}
+	#}
+}

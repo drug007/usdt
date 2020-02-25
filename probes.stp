@@ -1,0 +1,17 @@
+#!/usr/bin/stap
+
+global count = 0
+global count2 = 0
+
+probe process.function("func") {
+	count++
+}
+
+probe end {
+	printf("Function executed %d times.\n", count)
+	printf("demo.myapp.func_call executed %d times.\n", count2)
+}
+
+probe process("usdt").provider("myapp").mark("func_call") {
+	count2++
+}

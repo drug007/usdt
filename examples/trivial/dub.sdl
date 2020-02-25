@@ -1,0 +1,6 @@
+name "trivial"
+description "Trivial example of usage of usdt library."
+authors "drug"
+copyright "Copyright © 2019, drug"
+license "BSL"
+dependency "usdt" path="../.."

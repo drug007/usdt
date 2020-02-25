@@ -1,0 +1,35 @@
+#! /usr/bin/env stap
+
+# Usage: stap perf.stp <path-to-binary> <module-name> <function-name>
+
+global cycles_per_insn
+global branch_per_insn
+global cacheref_per_insn
+global insns
+global cycles
+global branches
+global cacherefs
+global insn
+global cachemisses
+global miss_per_insn
+
+probe perf.hw.instructions.process(@1).counter("find_insns") {} 
+probe perf.hw.cpu_cycles.process(@1).counter("find_cycles") {} 
+probe perf.hw.branch_instructions.process(@1).counter("find_branches") {} 
+probe perf.hw.cache_references.process(@1).counter("find_cache_refs") {} 
+probe perf.hw.cache_misses.process(@1).counter("find_cache_misses") {}
+
+
+probe process(@1).provider("advanced").mark("case4.return") 
+{
+	insn["find_insns"] = @perf("find_insns")
+	insns <<< (insn["find_insns"])
+	insn["find_cycles"] = @perf("find_cycles")
+	cycles <<< insn["find_cycles"]
+	insn["find_branches"] = @perf("find_branches")
+	branches <<< insn["find_branches"]
+	insn["find_cache_refs"] = @perf("find_cache_refs")
+	cacherefs <<< insn["find_cache_refs"]
+	insn["find_cache_misses"] = @perf("find_cache_misses")
+	cachemisses <<< insn["find_cache_misses"]
+}

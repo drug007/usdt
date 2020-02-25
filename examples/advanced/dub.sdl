@@ -1,0 +1,15 @@
+name "advanced"
+description "More advanced example of usage of usdt library."
+authors "drug007"
+copyright "Copyright © 2019, drug007"
+license "BSL"
+dependency "usdt" path="../.."
+
+configuration "Default" {
+	targetType "executable"
+}
+
+configuration "SdtProbesDisabled" {
+	targetType "executable"
+	versions "StapProbesDisabled"
+}
