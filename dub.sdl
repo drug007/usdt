@@ -1,0 +1,6 @@
+name "usdt"
+description "Userland Statically Defined Tracing probes support in the D programming language."
+authors "drug007"
+copyright "Copyright © 2019-2020, drug007"
+license "BSL"
+dflags "-disable-linker-strip-dead" platform="ldc"
