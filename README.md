@@ -19,11 +19,11 @@ Possible frontends to access the linux kernel tracing subsystem are:
 - [gdb](https://www.gnu.org/software/gdb/)
 - others, not listed here
 
-Brendan Gregg's blog is one of very useful source of important information, in [this](http://www.brendangregg.com/blog/2015-07-03/hacking-linux-usdt-ftrace.html) post he writes about USDT and ftrace.
+Brendan Gregg's blog is one of very useful source of important information, for example in [this](http://www.brendangregg.com/blog/2015-07-03/hacking-linux-usdt-ftrace.html) post he writes about USDT and [ftrace](https://www.kernel.org/doc/html/v5.2/trace/ftrace.html).
 
 Usage example:
 ```D
-mixin(STAP_PROBE!("ProviderName", "ProbeName", args...));
+mixin(USDT_PROBE!("ProviderName", "ProbeName", args...));
 ```
 where `ProviderName` and `ProbeName` describe the probe, args count should be equal or less than 12.
 
